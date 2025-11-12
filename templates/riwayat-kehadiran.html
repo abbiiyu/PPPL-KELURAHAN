@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Kehadiran - HRIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya Kustom Umum */
+        body {
+            background-color: #f7f9fb;
+        }
+        .header-bg {
+            background-color: #3b4257;
+            color: white;
+        }
+        .nav-bar {
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-content {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        /* Style untuk Tabel */
+        .riwayat-table th, .riwayat-table td {
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid #f0f2f7; /* Garis abu-abu tipis */
+        }
+        .riwayat-table th {
+            background-color: #f7f9fb; /* Latar belakang header tabel */
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.8rem;
+        }
+        .riwayat-table td {
+            font-size: 0.875rem;
+            color: #2d3748;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20"> 
+    
+    <header class="header-bg p-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="index.html" class="mr-3 text-white text-lg hover:opacity-80">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="w-10 h-10 bg-gray-300 rounded-full mr-3 overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=MZ&background=random" alt="Profil" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <p class="text-sm font-semibold">HRIS Lenteng Agung</p>
+                <p class="text-xs text-gray-400">Mozaaa Loki</p>
+            </div>
+        </div>
+        <a href="LoginPage.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+    </header>
+
+    <main class="p-4 pt-6">
+        
+        <h1 class="text-xl font-bold text-gray-800 mb-6 uppercase">RIWAYAT KEHADIRAN SAYA</h1>
+        
+        <div class="flex mb-4 space-x-2">
+            <input 
+                type="text" 
+                placeholder="Pilih Bulan / Hari"
+                class="flex-grow p-2 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+            />
+            <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                Filter
+            </button>
+        </div>
+
+        <div class="card-content overflow-x-auto">
+            <div class="relative">
+                <button class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-1 rounded-full shadow-md text-gray-500 hover:text-blue-600 z-10" aria-label="Previous">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </button>
+                <button class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-1 rounded-full shadow-md text-gray-500 hover:text-blue-600 z-10" aria-label="Next">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+
+                <table class="w-full riwayat-table border-collapse">
+                <thead>
+                    <tr>
+                        <th class="w-1/4">Tanggal</th>
+                        <th class="w-1/6">Hari</th>
+                        <th class="w-1/5">Jam Masuk</th>
+                        <th class="w-1/4">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="riwayatAbsenBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <section class="header-bg mt-6 p-4">
+        <h2 class="text-lg font-semibold mb-4">Kantor Kelurahan Lenteng Agung</h2>
+        <div class="space-y-3 text-sm text-gray-300">
+            <p class="flex items-center">
+                <i class="fas fa-map-marker-alt w-4 mr-3 text-gray-400"></i> JL. Lenteng Agung Raya No. 123
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-phone w-4 mr-3 text-gray-400"></i> (021) 1234-5678
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-envelope w-4 mr-3 text-gray-400"></i> info@lentengagung.go.id
+            </p>
+        </div>
+        
+        <div class="border-t border-gray-600 my-6"></div> 
+        
+        <h2 class="text-lg font-semibold mb-3">Jam Operasional</h2>
+        <div class="space-y-1 text-sm text-gray-300">
+            <p>Senin - Jumat: <span class="font-semibold">08:00 - 17:00</span></p>
+            <p>Sabtu: <span class="font-semibold">08:00 - 12:00</span></p>
+            <p>Minggu: <span class="font-semibold">Tutup</span></p>
+        </div>
+        
+        <div class="border-t border-gray-600 my-6"></div> 
+
+        <p class="text-center text-xs text-gray-400">
+            © 2024 HRIS Lenteng Agung Village Office. Powered by<br>
+            <span class="font-semibold">APTIKOM.</span>
+        </p>
+    </section>
+
+    <nav class="nav-bar fixed bottom-0 left-0 right-0 h-20 flex justify-around items-center">
+        <a href="cuti.html" class="flex flex-col items-center text-gray-500 hover:text-blue-600 text-xs group">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-1 duration-200 group-hover:bg-gray-100">
+                <i class="fas fa-calendar-alt text-xl"></i>
+            </div>
+            <span class="mt-1">Cuti</span>
+        </a>
+        
+        <a href="scanner.html" class="flex flex-col items-center text-blue-600 text-xs group"> 
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-1 bg-gray-100 duration-200 group-hover:bg-gray-100"> 
+                <i class="fas fa-qrcode text-xl"></i> 
+            </div>
+            <span class="">Scanner</span>
+        </a>
+
+        <a href="profile.html" class="flex flex-col items-center text-gray-500 hover:text-blue-600 text-xs group">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-1 duration-200 group-hover:bg-gray-100">
+                <i class="fas fa-user text-xl"></i>
+            </div>
+            <span class="mt-1">Profile</span>
+        </a>
+    </nav>
+    
+    <script>
+        // Fungsi untuk mengarahkan tombol "Kembali" ke index/status page
+        document.addEventListener('DOMContentLoaded', () => {
+            const backButton = document.querySelector('header a[href="index.html"]');
+            if (backButton) {
+                // Di sini Anda bisa menambahkan logika jika ingin kembali ke halaman status bukan halaman scanner
+                // Misalnya, kembali ke halaman yang memicu tombol "Lihat Riwayat Absen"
+            }
+        });
+
+        // Contoh data riwayat absen
+        document.addEventListener('DOMContentLoaded', () => {
+        // 1. Ambil data dari Local Storage (data yang telah diupdate dari halaman scanner)
+        const riwayatJson = localStorage.getItem('RIWAYAT_ABSEN_MOCK');
+        const dataRiwayat = riwayatJson ? JSON.parse(riwayatJson) : [];
+        
+        // 2. Panggil fungsi render untuk membuat tabel
+        renderRiwayatTable(dataRiwayat);
+    });
+
+    /**
+     * Fungsi untuk membuat dan mengisi tabel Riwayat Absen
+     */
+    function renderRiwayatTable(dataRiwayat) {
+        const tbody = document.getElementById('riwayatAbsenBody');
+        tbody.innerHTML = ''; // Pastikan kosong sebelum diisi
+
+        if (dataRiwayat.length === 0) {
+            // KASUS 1: DATA KOSONG (ZERO STATE)
+            tbody.innerHTML = `
+                <tr> 
+                    <td colspan="4" class="text-center py-8 text-gray-500 font-medium">
+                        Tidak ada riwayat kehadiran ditemukan.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        // KASUS 2: ADA DATA
+        dataRiwayat.forEach(data => {
+            // Tentukan kelas warna berdasarkan status
+            const statusClass = (data.status === "Tepat Waktu") ? "text-green-500" : "text-red-500";
+            
+            const newRow = `
+                <tr class="data-row">
+                    <td>${data.tanggal}</td>
+                    <td>${data.hari}</td>
+                    <td>${data.jamMasuk}</td>
+                    <td><span class="${statusClass} font-semibold">${data.status}</span></td>
+                </tr>
+            `;
+            // Tambahkan baris baru ke tabel
+            tbody.innerHTML += newRow;
+        });
+    }
+    </script>
+</body>
+</html>

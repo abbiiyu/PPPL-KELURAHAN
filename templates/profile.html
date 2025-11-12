@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya - HRIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya Kustom Umum */
+        body {
+            background-color: #f7f9fb; /* Latar Belakang Halaman yang terang */
+        }
+        .header-bg {
+            background-color: #3b4257; /* Warna Header dan Footer informasi (Dark Blue/Gray) */
+            color: white;
+        }
+        .nav-bar {
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .info-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+        }
+        .profile-list p {
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem; /* text-sm */
+        }
+        .profile-list strong {
+            display: inline-block;
+            width: 120px; /* Lebar minimum untuk label agar sejajar */
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20"> 
+    
+    <header class="header-bg p-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <div class="w-10 h-10 bg-gray-300 rounded-full mr-3 overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=ML&background=random" alt="Profil" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <p class="text-sm font-semibold">HRIS Lenteng Agung</p>
+                <p class="text-xs text-gray-400">Mozaaa Loki</p>
+            </div>
+        </div>
+        <a href="LoginPage.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+    </header>
+
+    <main class="p-4 pt-6">
+        
+        <div class="info-card mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">PROFIL SAYA</h2>
+            
+            <div class="flex items-start">
+                <div class="w-24 h-24 mr-6 rounded-lg overflow-hidden flex-shrink-0">
+                    <img src="../Mimikyu.jpeg" alt="Foto Profil" class="w-full h-full object-cover">
+                </div>
+                
+                <div class="flex-grow text-sm profile-list">
+                    <p class="text-gray-800"><strong class="font-normal text-gray-600">Nama Lengkap</strong> : Mozaaa Loki</p>
+                    <p class="text-gray-800"><strong class="font-normal text-gray-600">ID Petugas</strong> : A001</p>
+                    <p class="text-gray-800"><strong class="font-normal text-gray-600">Jabatan</strong> : Petugas Kebersihan</p>
+                    <p class="text-gray-800"><strong class="font-normal text-gray-600">Nomor Telpon</strong> : 08123123123</p>
+                    <p class="text-gray-800"><strong class="font-normal text-gray-600">Alamat</strong> : Jl Haji Nawi No 123</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">RINGKASAN KEHADIRAN</h2>
+            
+            <div class="text-sm space-y-2 mb-4">
+                <p class="text-gray-700">Total Hari Kerja Bulan ini : <span class="font-semibold">20</span></p>
+                <p class="text-gray-700">Terlambat Bulan ini : <span class="font-semibold">2</span></p>
+            </div>
+            
+            <a href="riwayat-kehadiran.html"
+            class="w-full flex items-center justify-center py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md"
+            role="button">
+                Lihat Riwayat Kehadiran
+            </a>
+        </div>
+        
+        <div class="info-card mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">INFORMASI CUTI</h2>
+            
+            <div class="text-sm space-y-2 mb-4">
+                <p class="text-gray-700">Sisa Cuti Tahunan : <span class="font-semibold">9 Hari</span></p>
+            </div>
+            
+            <a href="riwayat-cuti.html" role="button" 
+            class="w-full flex justify-center py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md">
+                Lihat Riwayat Cuti
+            </a>
+        </div>
+
+    </main>
+    
+    <section class="header-bg mt-6 p-4">
+        <h2 class="text-lg font-semibold mb-4">Kantor Kelurahan Lenteng Agung</h2>
+        <div class="space-y-3 text-sm text-gray-300">
+            <p class="flex items-center">
+                <i class="fas fa-map-marker-alt w-4 mr-3 text-gray-400"></i> JL. Lenteng Agung Raya No. 123
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-phone w-4 mr-3 text-gray-400"></i> (021) 1234-5678
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-envelope w-4 mr-3 text-gray-400"></i> info@lentengagung.go.id
+            </p>
+        </div>
+        
+        <div class="border-t border-gray-600 my-6"></div> 
+        
+        <h2 class="text-lg font-semibold mb-3">Jam Operasional</h2>
+        <div class="space-y-1 text-sm text-gray-300">
+            <p>Senin - Jumat: <span class="font-semibold">08:00 - 17:00</span></p>
+            <p>Sabtu: <span class="font-semibold">08:00 - 12:00</span></p>
+            <p>Minggu: <span class="font-semibold">Tutup</span></p>
+        </div>
+        
+        <div class="border-t border-gray-600 my-6"></div> 
+
+        <p class="text-center text-xs text-gray-400">
+            © 2024 HRIS Lenteng Agung Village Office. Powered by<br>
+            <span class="font-semibold">APTIKOM.</span>
+        </p>
+    </section>
+
+    <nav class="nav-bar fixed bottom-0 left-0 right-0 h-20 flex justify-around items-center">
+    
+    <a href="cuti.html" class="flex flex-col items-center text-gray-500 hover:text-blue-600 text-xs group">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-1 duration-200 group-hover:bg-gray-100">
+            <i class="fas fa-calendar-alt text-xl"></i>
+        </div>
+        <span class="mt-1">Cuti</span>
+    </a>
+    
+    <a href="scanner.html" class="flex flex-col items-center text-gray-500 hover:text-blue-600 text-xs group"> 
+        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-1 duration-200 group-hover:bg-gray-100"> 
+            <i class="fas fa-qrcode text-xl"></i> 
+        </div>
+        <span class="">Scanner</span>
+    </a>
+
+    <a href="profile.html" class="flex flex-col items-center text-gray-500 hover:text-blue-600 text-xs group">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-1 duration-200 group-hover:bg-gray-100">
+            <i class="fas fa-user text-xl"></i>
+        </div>
+        <span class="mt-1">Profile</span>
+    </a>
+    </nav>
+</body>
+</html>
