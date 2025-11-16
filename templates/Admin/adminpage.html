@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin Jaga - HRIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #EEF4FF; /* Latar belakang halaman yang terang */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Memastikan kartu login berada di tengah vertikal */
+            margin: 0;
+        }
+        .login-card {
+            background-color: white;
+            border-radius: 2rem; /* 16px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem; /* 40px */
+            max-width: 58rem; /* 448px - disesuaikan untuk desktop */
+            width: 100%;
+        }
+        .input-field {
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.5rem; /* 8px */
+            padding: 0.75rem 1rem; /* 12px 16px */
+            width: 100%;
+            font-size: 0.9375rem; /* 15px */
+            color: #374151; /* gray-700 */
+            outline: none;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .input-field::placeholder {
+            color: #9ca3af; /* gray-400 */
+        }
+        .input-field:focus {
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 1px #3b82f6; /* blue-500 */
+        }
+        .btn-login {
+            background-color: #3b4257; /* Dark Blue/Gray sesuai header */
+            color: white;
+            padding: 0.75rem 1.5rem; /* 12px 24px */
+            border-radius: 0.5rem; /* 8px */
+            font-weight: 600; /* semibold */
+            font-size: 1rem; /* 16px */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-login:hover {
+            background-color: #2b303d; /* Sedikit lebih gelap saat hover */
+        }
+        .footer-text {
+            color: #6b7280; /* gray-500 */
+            font-size: 0.75rem; /* 12px */
+        }
+        .footer-link {
+            color: #3b4257; /* Dark Blue/Gray */
+            font-weight: 600; /* semibold */
+        }
+        .error-message {
+            color: #ef4444; /* red-500 */
+            font-size: 0.875rem; /* 14px */
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h1 class="text-2xl font-bold text-gray-800 text-center mb-8">LOGIN ADMIN JAGA</h1>
+        
+        <form id="adminLoginForm" class="space-y-6">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                <input type="text" id="username" name="username" placeholder="Masukkan Username anda" class="input-field" required>
+            </div>
+            
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <input type="password" id="password" name="password" placeholder="Masukkan Password anda" class="input-field" required>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm">
+                <div class="flex items-center">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="rememberMe" class="ml-2 text-gray-700">Ingat Saya</label>
+                </div>
+                <a href="homepage.html" class="text-gray-500 hover:text-blue-500 font-medium">Login Sebagai Admin Lurah</a>
+            </div>
+            
+            <button type="submit" class="btn-login">
+                <i class="fas fa-arrow-right mr-2"></i> Login
+            </button>
+            
+            <div id="errorMessage" class="error-message hidden"></div>
+        </form>
+
+        <p class="text-center footer-text mt-8">
+            © 2024 HRIS Lenteng Agung Village Office. Powered by<br>
+            <span class="footer-link">APTIKOM.</span>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form untuk refresh halaman
+
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+            const errorMessageDiv = document.getElementById('errorMessage');
+
+            // [DEMO HAPUS] Data login hardcoded untuk demo
+            const MOCK_ADMIN_USERNAME = 'adminjaga';
+            const MOCK_ADMIN_PASSWORD = 'passwordjaga';
+
+            errorMessageDiv.classList.add('hidden'); // Sembunyikan pesan error sebelumnya
+
+            if (usernameInput === MOCK_ADMIN_USERNAME && passwordInput === MOCK_ADMIN_PASSWORD) {
+                // [DEMO HAPUS] Simulasikan sukses login
+                alert('Login Admin Jaga Berhasil!');
+                // [DEMO HAPUS] Arahkan ke halaman dashboard admin atau halaman utama
+                window.location.href = 'index.html'; // Ganti dengan halaman dashboard admin sebenarnya
+            } else {
+                errorMessageDiv.textContent = 'Username atau Password salah.';
+                errorMessageDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
