@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Absensi Lengkap - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya Kustom Umum (Konsisten dengan Dashboard) */
+        body {
+            background-color: #f7f9fb;
+        }
+        .header-bg {
+            background-color: #3b4257;
+            color: white;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Custom colors matching the design */
+        .color-blue { background-color: #4c8cd6; } 
+        .color-green { background-color: #49c57d; } 
+        .color-purple { background-color: #9c5aa8; }
+        .progress-bar-red { height: 4px; background-color: #ef4444; }
+        
+        /* Gaya untuk Tabel */
+        .absensi-table th, .absensi-table td {
+            padding: 0.75rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #f0f2f7;
+            font-size: 0.875rem; /* text-sm */
+        }
+        .absensi-table th {
+            background-color: #f7f9fb;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        /* Gaya untuk Pagination */
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+        .pagination-btn.active {
+            background-color: #4c8cd6; /* Blue-500 */
+            color: white;
+        }
+        .pagination-btn:not(.active) {
+            background-color: #f0f2f7;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col"> 
+    
+    <header class="header-bg p-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="homepage.html" class="mr-3 text-white text-lg hover:opacity-80">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <img src="../../logokelurahan.png" alt="Logo Kelurahan" class="w-8 h-8 mr-3 rounded-full object-cover">
+            <h1 class="text-xl font-semibold">Kelurahan Lenteng Agung</h1>
+        </div>
+        <a href="adminpage.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+    </header>
+
+    <main class="p-4 pt-6 flex-grow">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
+            <div class="color-blue card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">TOTAL PETUGAS</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">43</span>
+                    <i class="fas fa-users text-3xl opacity-50"></i>
+                </div>
+            </div>
+            <div class="color-green card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">KEHADIRAN HARI INI</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">37</span>
+                    <i class="fas fa-times-circle text-3xl opacity-50"></i>
+                </div>
+                <div class="h-1 bg-white bg-opacity-30 rounded mt-3">
+                    <div class="progress-bar-red rounded" style="width: 86%;"></div>
+                </div>
+            </div>
+            <div class="color-purple card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">CUTI MENUNGGU PERSETUJUAN</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">10</span>
+                    <i class="fas fa-times-circle text-3xl opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 uppercase">MANAJEMEN ABSENSI LENGKAP</h1>
+        
+        <div class="flex mb-6 space-x-3">
+            <input 
+                type="search" 
+                id="search-input"
+                placeholder="Cari (Nama, Tanggal...)"
+                class="flex-grow p-2 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+            />
+            <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                Filter
+            </button>
+        </div>
+
+        <table class="w-full absensi-table border-collapse">
+            <thead>
+                <tr>
+                    <th class="w-1/12">NO</th>
+                    <th class="w-2/12">NAMA</th>
+                    <th class="w-2/12">TANGGAL</th>
+                    <th class="w-2/12">JAM MASUK</th>
+                    <th class="w-2/12">STATUS</th>
+                </tr>
+            </thead>
+            <tbody id="absensiTableBody">
+                </tbody>
+        </table>
+
+       <div class="bg-white card-shadow p-4 rounded-lg overflow-x-auto">
+            <div class="flex items-center mt-4">
+
+                <div class="flex-1"></div> 
+
+                <div id="pagination-container" class="flex-none"> 
+                        </div>
+                    
+                <div class="flex-1 flex justify-end"> 
+                    <button class="bg-blue-600 hover:bg-gray-700 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                        Export ke Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="header-bg mt-8 p-4">
+        <h2 class="text-lg font-semibold mb-4">Kantor Kelurahan Lenteng Agung</h2>
+        <div class="space-y-3 text-sm text-gray-300">
+            <p class="flex items-center">
+                <i class="fas fa-map-marker-alt w-4 mr-3 text-gray-400"></i> JL. Lenteng Agung Raya No. 123
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-phone w-4 mr-3 text-gray-400"></i> (021) 1234-5678
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-envelope w-4 mr-3 text-gray-400"></i> info@lentengagung.go.id
+            </p>
+        </div>
+        
+        <h2 class="text-lg font-semibold mb-3 mt-6">Jam Operasional</h2>
+        <div class="space-y-1 text-sm text-gray-300">
+            <p>Senin - Jumat: <span class="font-semibold">08:00 - 17:00</span></p>
+            <p>Sabtu: <span class="font-semibold">08:00 - 12:00</span></p>
+            <p>Minggu: <span class="font-semibold">Tutup</span></p>
+        </div>
+        
+        <div class="border-t-2 border-gray-600 my-6 w-full"></div> 
+
+        <p class="text-center text-xs text-gray-400 w-full"> 
+            © 2024 HRIS Lenteng Agung Village Office. Powered by<br>
+            <span class="font-semibold">APTIKOM.</span>
+        </p>
+    </footer>
+
+    <script>
+    // Batas akhir untuk Tepat Waktu adalah 07:30 WIB
+    const CUTOFF_TIME = "07:30"; 
+    
+    // [DEMO/HAPUS] Konstanta untuk Pagination
+    const ROWS_PER_PAGE = 10;
+    let currentPage = 1;
+
+    // [DEMO/HAPUS] Data absensi dari database
+    const absensiData = [
+        { id: 1, nama: "Mozaaa", tanggal: "28 okt 2025", jamMasuk: "07:22" },
+        { id: 2, nama: "Badrul", tanggal: "28 okt 2025", jamMasuk: "06:57" },
+        { id: 3, nama: "Mizuki", tanggal: "28 okt 2025", jamMasuk: "06:34" },
+        { id: 4, nama: "Loki", tanggal: "28 okt 2025", jamMasuk: "07:15" },
+        { id: 5, nama: "Kurniawan", tanggal: "28 okt 2025", jamMasuk: "07:59" },
+        { id: 6, nama: "Bejo", tanggal: "28 okt 2025", jamMasuk: "07:09" },
+        { id: 7, nama: "Yanto", tanggal: "28 okt 2025", jamMasuk: "07:12" },
+        { id: 8, nama: "Panjul", tanggal: "28 okt 2025", jamMasuk: "08:26" },
+        { id: 9, nama: "Yohan", tanggal: "28 okt 2025", jamMasuk: "07:01" },
+        { id: 10, nama: "Budi", tanggal: "28 okt 2025", jamMasuk: "09:17" },
+        { id: 11, nama: "Rini", tanggal: "28 okt 2025", jamMasuk: "07:30" }, 
+        { id: 12, nama: "Sinta", tanggal: "28 okt 2025", jamMasuk: "07:31" },
+        { id: 13, nama: "Rahmat", tanggal: "29 Okt 2025", jamMasuk: "06:45" }, // Tepat Waktu
+        { id: 14, nama: "Dewi", tanggal: "29 Okt 2025", jamMasuk: "08:05" }, // Telat
+        { id: 15, nama: "Fajar", tanggal: "29 Okt 2025", jamMasuk: "07:18" }, // Tepat Waktu
+        { id: 16, nama: "Galih", tanggal: "29 Okt 2025", jamMasuk: "07:40" }, // Telat
+        { id: 17, nama: "Hesti", tanggal: "29 Okt 2025", jamMasuk: "06:30" }, // Tepat Waktu
+        { id: 18, nama: "Irfan", tanggal: "29 Okt 2025", jamMasuk: "07:25" }, // Tepat Waktu
+        { id: 19, nama: "Joko", tanggal: "29 Okt 2025", jamMasuk: "08:11" }, // Telat
+        { id: 20, nama: "Kartika", tanggal: "29 Okt 2025", jamMasuk: "07:05" }, // Tepat Waktu
+        { id: 21, nama: "Lina", tanggal: "30 Okt 2025", jamMasuk: "06:50" }, // Tepat Waktu
+        { id: 22, nama: "Miko", tanggal: "30 Okt 2025", jamMasuk: "07:35" }, // Telat
+        { id: 23, nama: "Nia", tanggal: "30 Okt 2025", jamMasuk: "06:40" }, // Tepat Waktu
+        { id: 24, nama: "Oscar", tanggal: "30 Okt 2025", jamMasuk: "08:45" }, // Telat
+        { id: 25, nama: "Putri", tanggal: "30 Okt 2025", jamMasuk: "07:28" }, // Tepat Waktu
+        { id: 26, nama: "Qiqi", tanggal: "30 Okt 2025", jamMasuk: "07:00" }, // Tepat Waktu
+        { id: 27, nama: "Reno", tanggal: "30 Okt 2025", jamMasuk: "08:00" }, // Telat
+        { id: 28, nama: "Sari", tanggal: "31 Okt 2025", jamMasuk: "06:55" }, // Tepat Waktu
+        { id: 29, nama: "Tono", tanggal: "31 Okt 2025", jamMasuk: "07:45" }, // Telat
+        { id: 30, nama: "Umar", tanggal: "31 Okt 2025", jamMasuk: "06:35" }, // Tepat Waktu
+        { id: 31, nama: "Vina", tanggal: "31 Okt 2025", jamMasuk: "07:20" }, // Tepat Waktu
+        { id: 32, nama: "Widi", tanggal: "31 Okt 2025", jamMasuk: "08:30" }, // Telat
+        { id: 33, nama: "Xena", tanggal: "31 Okt 2025", jamMasuk: "06:48" }, // Tepat Waktu
+        { id: 34, nama: "Yuli", tanggal: "01 Nov 2025", jamMasuk: "07:55" }, // Telat
+        { id: 35, nama: "Zaki", tanggal: "01 Nov 2025", jamMasuk: "07:10" }, // Tepat Waktu
+        { id: 36, nama: "Alisa", tanggal: "01 Nov 2025", jamMasuk: "06:58" }, // Tepat Waktu
+        { id: 37, nama: "Bima", tanggal: "01 Nov 2025", jamMasuk: "08:15" }  // Telat
+        
+        ];
+
+    /**
+     * Fungsi untuk menentukan status absensi (Tepat Waktu atau Telat).
+     * [CATATAN UNTUK BACKEND DEV]: Logika batas waktu 07:30 dapat dipindahkan ke Backend.
+     */
+    function getStatus(jamMasuk) {
+        if (jamMasuk <= CUTOFF_TIME) {
+            return { status: "Tepat Waktu", color: "text-green-600 font-semibold" };
+        } else {
+            return { status: "Telat", color: "text-red-600 font-semibold" };
+        }
+    }
+
+    /**
+     * Mengisi tabel absensi hanya dengan data halaman saat ini.
+     * [BACKEND DEV TIDAK PERLU]: Hanya perlu memastikan data yang diterima sudah difilter/dibagi.
+     */
+    function renderTable(data, page) { // [DEMO HAPUS: 'data' dan 'page' dipakai untuk simulasi]
+        const tbody = document.getElementById('absensiTableBody');
+        tbody.innerHTML = '';
+        
+        // [DEMO HAPUS] Logic memotong data untuk halaman yang sedang aktif
+        const start = (page - 1) * ROWS_PER_PAGE;
+        const end = start + ROWS_PER_PAGE;
+        const paginatedData = data.slice(start, end);
+
+        // [DEMO HAPUS] Gunakan paginatedData untuk perulangan
+        paginatedData.forEach((item) => {
+            const statusInfo = getStatus(item.jamMasuk);
+            
+            const row = `
+                <tr class="hover:bg-gray-50">
+                    <td class="w-1/12">${item.id}</td>
+                    <td class="w-2/12 font-semibold">${item.nama}</td>
+                    <td class="w-2/12">${item.tanggal}</td>
+                    <td class="w-2/12">${item.jamMasuk}</td>
+                    <td class="w-2/12"><span class="${statusInfo.color}">${statusInfo.status}</span></td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+        
+        // [DEMO HAPUS] Panggil fungsi render tombol
+        renderPaginationButtons(data.length); 
+    }
+    
+    /**
+     * [DEMO HAPUS] Membuat dan mengelola tombol pagination secara dinamis.
+     */
+    function renderPaginationButtons(totalDataCount) {
+        const totalPages = Math.ceil(totalDataCount / ROWS_PER_PAGE);
+        const paginationContainer = document.getElementById('pagination-container');
+        paginationContainer.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.innerText = i;
+            button.classList.add('pagination-btn');
+            
+            if (i === currentPage) {
+                button.classList.add('active');
+            }
+
+            // [DEMO HAPUS] Tambahkan event listener untuk mengubah halaman
+            button.addEventListener('click', () => {
+                currentPage = i;
+                renderTable(absensiData, currentPage);
+            });
+
+            paginationContainer.appendChild(button);
+        }
+    }
+
+    // ====================================================================
+    // ===== START UP LOGIC (INI AKAN DIGANTI DENGAN FETCH API BACKEND) =====
+    // ====================================================================
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        // [BACKEND DEV PERHATIAN]: 
+        // 1. Ganti 'absensiData' dengan data yang diterima dari API.
+        // 2. Ganti pemanggilan 'renderTable' dengan data real-time.
+        
+        renderTable(absensiData, currentPage); // [DEMO HAPUS] Pemanggilan untuk data mock
+    });
+    </script>
+</body>
+</html>

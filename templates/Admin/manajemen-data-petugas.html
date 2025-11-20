@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Data Petugas - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya Kustom Umum (Konsisten dengan Dashboard) */
+        body {
+            background-color: #f7f9fb;
+        }
+        .header-bg {
+            background-color: #3b4257;
+            color: white;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Custom colors matching the design */
+        .color-blue { background-color: #4c8cd6; } 
+        .color-green { background-color: #49c57d; } 
+        .color-purple { background-color: #9c5aa8; }
+        .progress-bar-red { height: 4px; background-color: #ef4444; }
+        
+        /* Gaya untuk Petugas Card */
+        .petugas-card {
+            /* Warna latar belakang dan border radius */
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid #e5e7eb; /* gray-200 */
+            transition: box-shadow 0.2s;
+        }
+        .petugas-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        /* Gaya untuk Pagination */
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+        .pagination-btn.active {
+            background-color: #4c8cd6;
+            color: white;
+        }
+        .pagination-btn:not(.active) {
+            background-color: #f0f2f7;
+            color: #4a5568;
+        }
+        .petugas-card.is-selected {
+            border: 3px solid #4c8cd6; 
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+        .petugas-card.is-selected:after {
+            content: 'X'; 
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: white;
+            background-color: #ef4444;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col"> 
+    
+    <header class="header-bg p-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="homepage.html" class="mr-3 text-white text-lg hover:opacity-80">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <img src="../../logokelurahan.png" alt="Logo Kelurahan" class="w-8 h-8 mr-3 rounded-full object-cover">
+            <h1 class="text-xl font-semibold">Kelurahan Lenteng Agung</h1>
+        </div>
+        <a href="adminpage.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+    </header>
+
+    <main class="p-4 pt-6 flex-grow">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
+            <div class="color-blue card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">TOTAL PETUGAS</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">43</span>
+                    <i class="fas fa-users text-3xl opacity-50"></i>
+                </div>
+            </div>
+            <div class="color-green card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">KEHADIRAN HARI INI</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">37</span>
+                    <i class="fas fa-times-circle text-3xl opacity-50"></i>
+                </div>
+                <div class="h-1 bg-white bg-opacity-30 rounded mt-3">
+                    <div class="progress-bar-red rounded" style="width: 86%;"></div>
+                </div>
+            </div>
+            <div class="color-purple card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">CUTI MENUNGGU PERSETUJUAN</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">10</span>
+                    <i class="fas fa-times-circle text-3xl opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 uppercase">MANAJEMEN DATA PETUGAS</h1>
+        
+        <div class="flex flex-col md:flex-row md:items-center mb-6 space-y-3 md:space-y-0 md:space-x-3">
+            <input 
+                type="search" 
+                id="search-petugas"
+                placeholder="Cari Nama atau NIP Petugas"
+                class="flex-grow p-3 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+            
+            <div class="flex space-x-2">
+                <button onclick="window.location.href='tambah-petugas-baru.html'" 
+                        class="bg-green-500 hover:bg-green-600 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                    <i class="fas fa-plus mr-1"></i> Tambah Petugas Baru
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                    Edit
+                </button>
+                <button id="hapusToggleBtn" 
+                        onclick="toggleDeleteMode()" 
+                        class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                    Hapus
+                </button>
+            </div>
+        </div>
+
+        <div id="daftarPetugasContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            </div>
+
+        <div class="flex items-center mt-4">
+            
+            <div class="flex-1"></div> 
+
+            <div id="pagination-container" class="flex-none"> 
+                </div>
+            
+            <div class="flex-1 flex justify-end"> 
+                <button onclick="exportPetugasToCSV('data_petugas.csv')"
+                        class="bg-blue-600 hover:bg-gray-700 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                    Export ke Excel
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div id="deleteConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-sm card-shadow text-center">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Konfirmasi Penghapusan</h3>
+            <p id="modalMessage" class="text-gray-700 mb-6">Anda yakin ingin menghapus 1 petugas?</p>
+            
+            <div class="flex justify-center space-x-4">
+                <button id="cancelDeleteBtn" class="py-2 px-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg">
+                    Batal
+                </button>
+                <button id="confirmDeleteBtn" class="py-2 px-4 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg">
+                    Ya, Hapus!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="header-bg mt-8 p-4">
+        <h2 class="text-lg font-semibold mb-4">Kantor Kelurahan Lenteng Agung</h2>
+        <div class="space-y-3 text-sm text-gray-300">
+            <p class="flex items-center">
+                <i class="fas fa-map-marker-alt w-4 mr-3 text-gray-400"></i> JL. Lenteng Agung Raya No. 123
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-phone w-4 mr-3 text-gray-400"></i> (021) 1234-5678
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-envelope w-4 mr-3 text-gray-400"></i> info@lentengagung.go.id
+            </p>
+        </div>
+        
+        <h2 class="text-lg font-semibold mb-3 mt-6">Jam Operasional</h2>
+        <div class="space-y-1 text-sm text-gray-300">
+            <p>Senin - Jumat: <span class="font-semibold">08:00 - 17:00</span></p>
+            <p>Sabtu: <span class="font-semibold">08:00 - 12:00</span></p>
+            <p>Minggu: <span class="font-semibold">Tutup</span></p>
+        </div>
+        
+        <div class="border-t-2 border-gray-600 my-6 w-full"></div> 
+
+        <p class="text-center text-xs text-gray-400 w-full"> 
+            © 2024 HRIS Lenteng Agung Village Office. Powered by<br>
+            <span class="font-semibold">APTIKOM.</span>
+        </p>
+    </footer>
+
+    <script>
+        // [DEMO/HAPUS] Konstanta dan Variabel Global
+        const ROWS_PER_PAGE = 9; 
+        let currentPage = 1;
+        let isDeleteMode = false; 
+        let selectedPetugasIds = new Set(); 
+
+        // [DEMO HAPUS] Data Mock Petugas Awal (Digunakan hanya jika Local Storage kosong)
+        // NOTE: Ganti URL dengan getAvatarUrl(Nama) agar gambar tidak rusak!
+        const INITIAL_PETUGAS_DATA = [ 
+            { id: 1, nama: "Mozaaa Loki", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Mozaaa+Loki&size=150&background=random" },
+            { id: 2, nama: "Badrul Kurniawan", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Badrul+Kurniawan&size=150&background=random" },
+            { id: 3, nama: "Bambang Kusuma", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Bambang+Kusuma&size=150&background=random" },
+            { id: 4, nama: "Bagas Sentosa", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Bagas+Sentosa&size=150&background=random" },
+            { id: 5, nama: "Muhammad Ijam", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Muhammad+Ijam&size=150&background=random" },
+            { id: 6, nama: "Ahmad Taruna", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Ahmad+Taruna&size=150&background=random" },
+            { id: 7, nama: "Budi Nan Jaya", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Budi+Nan+Jaya&size=150&background=random" },
+            { id: 8, nama: "Panjul Kameha", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Panjul+Kameha&size=150&background=random" },
+            { id: 9, nama: "Muhammad Kasim", nip: "1234567890(NIP)", jabatan: "Petugas Kebersihan", imgUrl: "https://ui-avatars.com/api/?name=Muhammad+Kasim&size=150&background=random" },
+            { id: 10, nama: "Sinta Dewi", nip: "1234567890(NIP)", jabatan: "Staf Administrasi", imgUrl: "https://ui-avatars.com/api/?name=Sinta+Dewi&size=150&background=random" },
+            { id: 11, nama: "Reno Akbar", nip: "1234567890(NIP)", jabatan: "Staf Administrasi", imgUrl: "https://ui-avatars.com/api/?name=Reno+Akbar&size=150&background=random" },
+            { id: 12, nama: "Kartika Sari", nip: "1234567890(NIP)", jabatan: "Staf Administrasi", imgUrl: "https://ui-avatars.com/api/?name=Kartika+Sari&size=150&background=random" },
+        ];
+        let petugasData = []; 
+
+        /* ========================================================= */
+        /* ===== LOGIKA LOCAL STORAGE (MOCK DATABASE) ================ */
+        /* ========================================================= */
+
+        // [DEMO HAPUS] Fungsi untuk mendapatkan data dari Local Storage
+        function getPetugasData() {
+            const dataJson = localStorage.getItem('PETUGAS_DATA_MOCK');
+            return dataJson ? JSON.parse(dataJson) : INITIAL_PETUGAS_DATA;
+        }
+
+        // [DEMO HAPUS] Fungsi untuk menyimpan data ke Local Storage
+        function savePetugasData(data) {
+            localStorage.setItem('PETUGAS_DATA_MOCK', JSON.stringify(data));
+        }
+
+   /**
+     * [DEMO HAPUS] Fungsi untuk mengeksport data Petugas ke format CSV.
+     * Mengambil data terbaru dari Local Storage.
+     */
+    function exportPetugasToCSV(filename) {
+        // 1. [DEMO HAPUS] Ambil data terbaru dari Local Storage
+        const dataToExport = getPetugasData(); 
+        
+        if (dataToExport.length === 0) {
+            alert("Data petugas kosong. Tidak ada yang diekspor.");
+            return;
+        }
+
+        let csv = [];
+        
+        // 2. Ambil Header Tabel
+        const header = ["NO", "NAMA LENGKAP", "NIP/NOMOR INDUK", "JABATAN"];
+        csv.push(header.join(',')); // MENGGUNAKAN KOMA (,) SEBAGAI PEMISAH
+
+        // 3. Ambil Data
+        dataToExport.forEach((item, index) => { 
+            let row = [];
+            row.push(index + 1);
+            
+            // Kunci Integritas: Bungkus data yang mungkin mengandung koma dengan tanda kutip
+            row.push('"' + item.nama.replace(/"/g, '""') + '"'); 
+            row.push(item.nip);
+            row.push('"' + item.jabatan.replace(/"/g, '""') + '"');
+            
+            csv.push(row.join(',')); // MENGGUNAKAN KOMA (,) SEBAGAI PEMISAH
+        });
+        
+        // 4. Konversi dan Download yang Paling Andal
+        // Menambahkan BOM (\ufeff) untuk memaksa Excel menggunakan encoding UTF-8
+        const csvContent = "\ufeff" + csv.join('\n'); 
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        
+        // Memicu download file menggunakan metode yang paling handal (cross-browser)
+        if (navigator.msSaveBlob) { 
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url); 
+        }
+
+        console.log(`Export ${dataToExport.length} baris petugas ke ${filename} berhasil dipicu.`);
+    }
+
+            /* ========================================================= */
+            /* ==================== FUNGSI UTAMA RENDER ================= */
+            /* ========================================================= */
+            
+            function renderPetugasCards(data, page) {
+                const container = document.getElementById('daftarPetugasContainer');
+                container.innerHTML = '';
+                
+                const start = (page - 1) * ROWS_PER_PAGE;
+                const end = start + ROWS_PER_PAGE;
+                const paginatedData = data.slice(start, end);
+
+                paginatedData.forEach((petugas) => {
+                    const isSelected = selectedPetugasIds.has(petugas.id); 
+                    
+                    const card = document.createElement('div');
+                    card.setAttribute('data-id', petugas.id);
+                    card.onclick = function() { selectCard(this); };
+
+                    card.className = `petugas-card p-4 flex items-start space-x-4 card-shadow cursor-pointer ${isSelected ? 'is-selected' : ''} relative bg-white rounded-lg transition-shadow duration-200`;
+
+                    card.innerHTML = `
+                        <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                            <img src="${petugas.imgUrl}" alt="${petugas.nama}" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">${petugas.nama}</p>
+                            <p class="text-xs text-gray-600">${petugas.nip}</p>
+                            <p class="text-xs text-gray-700 mt-1 font-medium">${petugas.jabatan}</p>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+                renderPaginationButtons(data.length); 
+                updateDeleteButtonText(); 
+            }
+
+        /* ========================================================= */
+        /* ==================== LOGIKA MODAL KUSTOM =================== */
+        /* ========================================================= */
+
+        const deleteModal = document.getElementById('deleteConfirmationModal');
+        const modalMessage = document.getElementById('modalMessage');
+
+
+        function showCustomDeleteModal() {
+            const count = selectedPetugasIds.size;
+            modalMessage.textContent = `Anda yakin ingin menghapus ${count} petugas?`;
+            deleteModal.style.display = 'flex'; // Menampilkan modal
+        }
+
+        function hideCustomDeleteModal() {
+            deleteModal.style.display = 'none';
+        }
+
+
+        /**
+         * [MODIFIKASI] Fungsi Simulasi Penghapusan Data Petugas
+         * Sekarang memanggil modal custom, BUKAN alert/confirm.
+         */
+        function confirmAndDelete() {
+            // [GANTI] Gantikan if (!confirm...) dengan menampilkan modal
+            showCustomDeleteModal();
+        }
+        
+        /**
+         * [BARU] Eksekusi Penghapusan Setelah Konfirmasi Modal
+         */
+        function processDeletionConfirmed() {
+            hideCustomDeleteModal(); // Sembunyikan modal
+
+            // 1. [BACKEND DEV: Ganti ini dengan API DELETE]
+            petugasData = petugasData.filter(petugas => !selectedPetugasIds.has(petugas.id)); 
+            savePetugasData(petugasData); // [DEMO HAPUS] Simpan kembali ke Local Storage
+
+            // 2. Bersihkan seleksi dan atur ulang tampilan
+            selectedPetugasIds.clear(); 
+            isDeleteMode = false;
+            
+            if (currentPage > Math.ceil(petugasData.length / ROWS_PER_PAGE)) { 
+                currentPage = Math.max(1, currentPage - 1);
+            }
+            
+            renderPetugasCards(petugasData, currentPage); 
+            console.log(`Petugas berhasil dihapus (${selectedPetugasIds.size} anggota).`); 
+        }
+
+
+        /* ========================================================= */
+        /* ==================== LOGIKA DELETE/SELEKSI ================ */
+        /* ========================================================= */
+        
+        function updateDeleteButtonText() {
+            const btn = document.getElementById('hapusToggleBtn');
+            if (!btn) return;
+
+            const totalSelected = selectedPetugasIds.size;
+            
+            if (isDeleteMode) {
+                if (totalSelected > 0) {
+                    btn.textContent = `Konfirmasi Hapus (${totalSelected})`;
+                    btn.classList.replace('bg-gray-500', 'bg-red-500');
+                } else {
+                    btn.textContent = 'Batal Hapus';
+                    btn.classList.replace('bg-red-500', 'bg-gray-500');
+                }
+            } else {
+                btn.textContent = 'Hapus';
+                btn.classList.replace('bg-gray-500', 'bg-red-500');
+            }
+        }
+        
+        function selectCard(cardElement) {
+            if (!isDeleteMode) {
+                return; 
+            }
+            
+            const petugasId = parseInt(cardElement.getAttribute('data-id'));
+            
+            if (selectedPetugasIds.has(petugasId)) {
+                selectedPetugasIds.delete(petugasId);
+                cardElement.classList.remove('is-selected');
+            } else {
+                selectedPetugasIds.add(petugasId);
+                cardElement.classList.add('is-selected');
+            }
+            
+            updateDeleteButtonText(); 
+        }
+
+        /**
+         * Mengaktifkan/Menonaktifkan Mode Hapus.
+         */
+        function toggleDeleteMode() {
+            if (isDeleteMode && selectedPetugasIds.size > 0) {
+                confirmAndDelete(); 
+            } else {
+                isDeleteMode = !isDeleteMode;
+                
+                if (!isDeleteMode) {
+                    selectedPetugasIds.clear();
+                } else {
+                    // Saat mode aktif, berikan notifikasi bahwa seleksi siap (tanpa alert)
+                    console.log("Mode Hapus Aktif: Silakan klik kartu yang akan dihapus."); 
+                }
+                
+                renderPetugasCards(petugasData, currentPage); 
+            }
+        }
+
+
+        /* ========================================================= */
+        /* ==================== LOGIKA PAGINATION ==================== */
+        /* ========================================================= */
+
+        function renderPaginationButtons(totalDataCount) {
+            const totalPages = Math.ceil(totalDataCount / ROWS_PER_PAGE);
+            const paginationContainer = document.getElementById('pagination-container');
+            if (!paginationContainer) return;
+            
+            paginationContainer.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.innerText = i;
+                button.classList.add('pagination-btn');
+                
+                if (i === currentPage) {
+                    button.classList.add('active');
+                }
+
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    renderPetugasCards(petugasData, currentPage); 
+                });
+
+                paginationContainer.appendChild(button);
+            }
+        }
+
+        // START UP LOGIC & EVENT LISTENERS
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hubungkan tombol modal konfirmasi ke fungsi eksekusi
+            document.getElementById('confirmDeleteBtn').onclick = processDeletionConfirmed;
+            document.getElementById('cancelDeleteBtn').onclick = hideCustomDeleteModal;
+            
+            // 1. Muat data dari Local Storage
+            petugasData = getPetugasData(); 
+            
+            // 2. Sinkronisasi data awal jika Local Storage kosong
+            if (!localStorage.getItem('PETUGAS_DATA_MOCK')) {
+                savePetugasData(petugasData); 
+            }
+            
+            // 3. Render
+            renderPetugasCards(petugasData, currentPage);
+        });
+    </script>
+</body>
+</html>
