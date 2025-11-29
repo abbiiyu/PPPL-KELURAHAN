@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Persetujuan Cuti - Lurah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya Kustom Umum */
+        body { background-color: #f7f9fb; }
+        .header-bg { background-color: #3b4257; color: white; }
+        .card-shadow { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        
+        /* Gaya Kartu Detail */
+        .detail-card {
+            background-color: white;
+            border-radius: 0.75rem; 
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Gaya Daftar Info */
+        .info-list > div {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+        .info-list > div > strong {
+            width: 120px; /* Lebar minimum label */
+            font-weight: 600;
+            color: #4a5568; /* gray-600 */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col"> 
+    
+    <header class="header-bg p-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="manajemen-cuti-lurah.html" class="mr-3 text-white text-lg hover:opacity-80">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-xl font-semibold">Kelurahan Lenteng Agung</h1>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+            <span class="text-sm font-semibold p-1">Lurah</span> 
+            <a href="loginlurah.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+        </div>
+    </header>
+
+    <main class="p-4 pt-6 flex-grow">
+        
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Detail Permintaan Cuti</h1>
+        
+        <div class="detail-card">
+            
+            <h2 class="text-xl font-bold text-gray-800 mb-4">INFORMASI PETUGAS</h2>
+            <div class="flex items-start mb-6">
+                
+                <div class="w-24 h-24 mr-6 rounded-lg overflow-hidden flex-shrink-0">
+                    <img src="https://i.pravatar.cc/150?img=1" alt="Foto Petugas" class="w-full h-full object-cover">
+                </div>
+                
+                <div class="flex-grow info-list text-sm">
+                    <div><strong>Nama Petugas</strong>: <span id="infoNama"> Mozaaa Loki</span></div>
+                    <div><strong>Jabatan Petugas</strong>: <span id="infoJabatan"> Petugas Kebersihan</span></div>
+                    <div><strong>Nomer Telpon</strong>: <span id="infoTelpon"> 08123123123</span></div>
+                    <div><strong>Alamat Petugas</strong>: <span id="infoAlamat"> Jl Haji Nawi No 123</span></div>
+                </div>
+            </div>
+            
+            <p class="text-sm font-semibold mb-8">Sisa Kuota Cuti Tahunan: <span id="infoSisaCuti" class="font-bold text-blue-600">11 Hari</span></p>
+
+            <hr class="mb-8 border-gray-200">
+
+            <h2 class="text-xl font-bold text-gray-800 mb-4">DETAIL PENGAJUAN CUTI</h2>
+            <div class="info-list text-sm mb-8">
+                <div><strong>Jenis Cuti</strong>: <span id="detailJenisCuti">Sakit</span></div>
+                <div><strong>Tanggal Mulai</strong>: <span id="detailTglMulai">17 Okt 2025</span></div>
+                <div><strong>Tanggal Selesai</strong>: <span id="detailTglSelesai">17 Okt 2025</span></div>
+                <div><strong>Lama Cuti</strong>: <span id="detailLamaCuti" class="font-bold">1 Hari Kerja</span></div>
+                <div><strong>Alasan Cuti</strong>: <span id="detailAlasan">Acara keluarga penting di luar kota.</span></div>
+            </div>
+
+            <hr class="mb-8 border-gray-200">
+            
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-xl font-bold text-gray-800">DOKUMEN PENDUKUNG (OPSIONAL)</h2>
+                <button onclick="unduhDokumen()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm">
+                    <i class="fas fa-download mr-2"></i> Unduh Dokumen
+                </button>
+            </div>
+
+            <hr class="mb-8 border-gray-200">
+
+            <h2 class="text-xl font-bold text-gray-800 mb-6">TINDAKAN LURAH</h2>
+            
+            <div class="flex space-x-4">
+                <button onclick="prosesPersetujuan('Disetujui')" class="flex-grow py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg card-shadow">
+                    <i class="fas fa-check mr-2"></i> SETUJUI
+                </button>
+                <button onclick="prosesPersetujuan('Ditolak')" class="flex-grow py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg card-shadow">
+                    <i class="fas fa-times mr-2"></i> TOLAK
+                </button>
+            </div>
+            
+            <p id="tindakanMessage" class="mt-4 text-center text-red-500 font-semibold hidden"></p>
+
+        </div>
+    </main>
+
+    <footer class="header-bg mt-8 p-4">
+        <h2 class="text-lg font-semibold mb-4">Kantor Kelurahan Lenteng Agung</h2>
+        <div class="space-y-3 text-sm text-gray-300">
+            <p class="flex items-center">
+                <i class="fas fa-map-marker-alt w-4 mr-3 text-gray-400"></i> JL. Lenteng Agung Raya No. 123
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-phone w-4 mr-3 text-gray-400"></i> (021) 1234-5678
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-envelope w-4 mr-3 text-gray-400"></i> info@lentengagung.go.id
+            </p>
+        </div>
+        
+        <h2 class="text-lg font-semibold mb-3 mt-6">Jam Operasional</h2>
+        <div class="space-y-1 text-sm text-gray-300">
+            <p>Senin - Jumat: <span class="font-semibold">08:00 - 17:00</span></p>
+            <p>Sabtu: <span class="font-semibold">08:00 - 12:00</span></p>
+            <p>Minggu: <span class="font-semibold">Tutup</span></p>
+        </div>
+        
+        <div class="border-t-2 border-gray-600 my-6 w-full"></div> 
+
+        <p class="text-center text-xs text-gray-400 w-full"> 
+            © 2024 HRIS Lenteng Agung Village Office. Powered by<br>
+            <span class="font-semibold">APTIKOM.</span>
+        </p>
+    </footer>
+
+    <script>
+        // [DEMO HAPUS] Fungsi untuk mendapatkan data dari Local Storage
+        function getRiwayatCuti() {
+            const riwayatJson = localStorage.getItem('RIWAYAT_CUTI_MOCK');
+            return riwayatJson ? JSON.parse(riwayatJson) : [];
+        }
+        function saveRiwayatCuti(data) {
+            localStorage.setItem('RIWAYAT_CUTI_MOCK', JSON.stringify(data));
+        }
+
+        // [DEMO HAPUS] Fungsi untuk mendapatkan data sisa cuti
+        function getSisaCuti() {
+            return localStorage.getItem('SISA_CUTI_TAHUNAN') || 11;
+        }
+
+        // [BARU] Fungsi helper untuk mengurai tanggal Indonesia (e.g., "17 Okt 2025")
+        function parseIDDate(dateString) {
+            if (!dateString) return null;
+            // Simple mapping untuk short month names
+            const monthMap = { 'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'Mei': 4, 'Jun': 5, 'Jul': 6, 'Agu': 7, 'Sep': 8, 'Okt': 9, 'Nov': 10, 'Des': 11 };
+            
+            // Memecah string tanggal (e.g., "17 Okt 2025" -> [17, Okt, 2025])
+            const parts = dateString.split(' ');
+            if (parts.length < 3) return null;
+            
+            const day = parseInt(parts[0]);
+            const monthStr = parts[1].slice(0, 3);
+            const year = parseInt(parts[2]);
+            
+            const month = monthMap[monthStr]; // Ambil index bulan
+            
+            if (isNaN(day) || typeof month === 'undefined' || isNaN(year)) return null;
+
+            // Mengembalikan objek Date yang valid (YYYY, MM, DD)
+            return new Date(year, month, day);
+        }
+        
+        // [FIXED] Fungsi untuk menghitung hari kerja (dipertahankan)
+        function getWorkDays(start, end) {
+            if (!start || !end) return 0;
+            let count = 1;
+            const curDate = new Date(start.getTime()); // Kloning tanggal agar tidak merusak tanggal asli
+            
+            while (curDate <= end) {
+                const day = curDate.getDay();
+                // 1=Senin, 5=Jumat. Abaikan Sabtu (6) dan Minggu (0)
+                if (day !== 0 && day !== 6) { 
+                    count++;
+                }
+                // Maju satu hari
+                curDate.setDate(curDate.getDate() + 1);
+            }
+            return count;
+        }
+
+
+        // ID Cuti yang di-load di halaman ini (Diambil dari URL dan diubah ke INTEGER)
+        const cutiIdParam = parseInt(new URLSearchParams(window.location.search).get('id')); 
+
+
+        /**
+         * [BACKEND DEV: Ganti fungsi ini dengan API PUT/POST ke Backend]
+         */
+        function prosesPersetujuan(status) {
+            // ... (Logika proses persetujuan tetap sama) ...
+            
+            let riwayat = getRiwayatCuti();
+            const cutiIndex = riwayat.findIndex(item => parseInt(item.id) === cutiIdParam); 
+
+            if (cutiIndex !== -1) {
+                let cutiNama = riwayat[cutiIndex].nama || 'Petugas';
+                
+                riwayat[cutiIndex].status = status;
+                saveRiwayatCuti(riwayat); 
+
+                document.getElementById('tindakanMessage').textContent = `Berhasil: Cuti ${cutiNama} telah ${status}. Mengalihkan...`;
+                document.getElementById('tindakanMessage').classList.add('text-green-500');
+
+                setTimeout(() => {
+                    window.location.href = 'manajemen-cuti-lurah.html'; 
+                }, 1500);
+
+            } else {
+                document.getElementById('tindakanMessage').textContent = `Error: Data cuti ID ${cutiIdParam} tidak ditemukan!`;
+                document.getElementById('tindakanMessage').classList.remove('hidden');
+            }
+        }
+        
+        function unduhDokumen() {
+            alert("Simulasi: File dokumen akan diunduh!");
+        }
+        
+        // [DEMO HAPUS] Fungsi untuk memuat dan mengisi data saat halaman dibuka
+        function loadCutiDetail() {
+            let riwayat = getRiwayatCuti();
+            const cutiDetail = riwayat.find(item => parseInt(item.id) === cutiIdParam);
+            
+            if (!cutiDetail) {
+                document.querySelector('main').innerHTML = `<h1 class="text-xl text-center text-red-500">Error: Detail Cuti ID ${cutiIdParam} tidak ditemukan.</h1>`;
+                return;
+            }
+
+            // --- MENGHITUNG ULANG LAMA CUTI SECARA ROBUST ---
+            const tglMulai = parseIDDate(cutiDetail.tglMulai);
+            const tglSelesai = parseIDDate(cutiDetail.tglSelesai);
+            
+            let calculatedDays = 'N/A';
+            
+            if (tglMulai && tglSelesai) {
+                calculatedDays = getWorkDays(tglMulai, tglSelesai);
+            }
+            // ------------------------------------------------
+
+
+            // MENGISI INFORMASI PETUGAS
+            document.getElementById('infoSisaCuti').textContent = getSisaCuti() + ' Hari';
+            document.getElementById('infoNama').textContent = cutiDetail.nama || 'N/A';
+            document.getElementById('infoJabatan').textContent = cutiDetail.jabatan || 'Petugas Kebersihan'; // Fallback
+            
+            // MENGISI DETAIL PENGAJUAN
+            document.getElementById('detailJenisCuti').textContent = cutiDetail.jenisCuti || '—';
+            document.getElementById('detailTglMulai').textContent = cutiDetail.tglMulai || '—';
+            document.getElementById('detailTglSelesai').textContent = cutiDetail.tglSelesai || '—';
+            
+            // KUNCI FIX: MENAMPILKAN HASIL KALKULASI ULANG
+            document.getElementById('detailLamaCuti').textContent = calculatedDays + ' Hari Kerja'; 
+            
+            document.getElementById('detailAlasan').textContent = cutiDetail.alasan || 'Tidak ada alasan spesifik'; 
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCutiDetail);
+    </script>
+</body>
+</html>

@@ -46,7 +46,12 @@
             <img src="../../logokelurahan.png" alt="Logo Kelurahan" class="w-8 h-8 mr-3 rounded-full object-cover">
             <h1 class="text-xl font-semibold">Kelurahan Lenteng Agung</h1>
         </div>
-        <a href="login-admin.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+        
+        <div class="flex items-center space-x-3">
+            <span class="text-sm font-semibold p-1">Lurah</span>
+            
+            <a href="loginlurah.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+        </div>
     </header>
 
     <main class="p-4 pt-6 flex-grow">
@@ -91,7 +96,7 @@
                 <p>Belum Absen Masuk : <span id="belumAbsen" class="font-semibold">6</span></p>
             </div>
         </div>
-        <button onclick="window.location.href='manajemen-absensi.html'" 
+        <button onclick="window.location.href='manajemen-absensi-lurah.html'" 
                 class="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition duration-200">
             Kelola Absen Lengkap
         </button>
@@ -105,7 +110,7 @@
                 <p>Diajukan Oleh : <span id="diajukanOleh" class="font-semibold">Mozaaa, Badrul & lainnya</span></p>
             </div>
         </div>
-        <button onclick="window.location.href='persetujuanadmin.html'" 
+        <button onclick="window.location.href='manajemen-cuti-lurah.html'" 
                 class="w-full py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition duration-200">
             Proses Persetujuan Cuti
         </button>
@@ -119,7 +124,7 @@
                 <p>Aktif : <span id="aktifPetugasData" class="font-semibold">37</span></p>
             </div>
         </div>
-        <button onclick="window.location.href='manajemen-data-petugas.html'" 
+        <button onclick="window.location.href='manajemen-data-petugas-lurah.html'" 
                 class="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition duration-200">
             Kelola Data Petugas
         </button>
@@ -127,23 +132,18 @@
 
     <div class="bg-white card-shadow p-6 rounded-lg h-72 flex flex-col justify-between">
         <div>
-            <h2 class="text-2xl font-semibold text-gray-800 mb-2">Laporan & Analitik</h2>
-            <p class="text-lg text-gray-700 mb-4">Grafik Trend Kehadiran Bulanan</p> <div class="flex items-center justify-between space-x-4 mb-4"> 
-                
-                <div class="flex-grow flex justify-center items-center h-54"> 
-                    <img src="../../diagramfoto.png" 
-                        alt="Grafik Trend Kehadiran Bulanan" 
-                        class="max-w-full max-h-full object-contain"> 
-                </div>
-                
-                <button onclick="window.location.href='laporan-detail.html'" 
-                        class="flex-shrink-0 w-55 py-3 px-10 bg-[#3b4257] hover:bg-[#2b303d] text-white font-medium rounded-lg transition duration-200 text-sm">
-                    Buat Laporan Detail
-                </button>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Laporan & Analitik</h2>
+            
+            <div class="text-sm text-gray-700 space-y-2 mb-6">
+                <p>Grafik Trend Kehadiran Bulanan</p>
+                <p class="text-xs text-gray-500 italic">Data tersedia setelah dibuat laporan.</p> 
             </div>
         </div>
-        </div>
-
+        
+        <button onclick="window.location.href='laporan-detail-lurah.html'" 
+                class="w-full py-2 px-4 bg-[#3b4257] hover:bg-[#2b303d] text-white font-medium rounded-lg transition duration-200">
+            Buat Laporan Detail
+        </button>
     </div>
 
     </main>
@@ -181,8 +181,8 @@
         // Logika pengisian data tetap sama
         document.addEventListener('DOMContentLoaded', () => {
             const data = {
-                totalPetugas: 37,
-                kehadiranHariIni: 12,
+                totalPetugas: 47,
+                kehadiranHariIni: 15,
                 cutiMenunggu: 10,
                 terlambat: 4,
                 belumAbsen: 6,

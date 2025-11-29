@@ -185,137 +185,129 @@
         </a>
     </nav>
     
-    <script>
-    // [DEMO HAPUS] Simpan data sisa cuti di Local Storage untuk simulasi
-    const SISA_CUTI_MAX = 12; 
-    let sisaCuti = parseInt(localStorage.getItem('SISA_CUTI_TAHUNAN')) || 11; // [DEMO HAPUS]
-    
-    // [DEMO HAPUS] Mengupdate tampilan sisa cuti dan Local Storage
-    function updateCutiDisplay() {
-        document.getElementById('sisaCutiDisplay').textContent = sisaCuti;
-        localStorage.setItem('SISA_CUTI_TAHUNAN', sisaCuti); // [DEMO HAPUS]
-    }
-
-    // Fungsi bantu untuk menghitung hari kerja (dipertahankan)
-    function getWorkDays(start, end) {
-        let count = 0;
-        const curDate = new Date(start);
-        while (curDate <= end) {
-            const day = curDate.getDay();
-            if (day !== 0 && day !== 6) { 
-                count++;
-            }
-            curDate.setDate(curDate.getDate() + 1);
-        }
-        return count;
-    }
-
-    /* ========================================================= */
-    /* === MOCK DATABASE (LOCAL STORAGE) - AKAN DIGANTI BACKEND === */
-    /* ========================================================= */
-    
-    // [DEMO HAPUS] Mengambil riwayat cuti dari Local Storage
-    function getRiwayatCuti() {
-        const riwayatJson = localStorage.getItem('RIWAYAT_CUTI_MOCK');
-        return riwayatJson ? JSON.parse(riwayatJson) : []; // [DEMO HAPUS]
-    }
-
-    // [DEMO HAPUS] Menyimpan riwayat cuti ke Local Storage
-    function saveRiwayatCuti(riwayat) {
-        localStorage.setItem('RIWAYAT_CUTI_MOCK', JSON.stringify(riwayat)); // [DEMO HAPUS]
-    }
-
-    /**
-     * COBAIN CUTI DEMO
-     * Fungsi ini harus diganti dengan panggilan API (AJAX/Fetch) ke backend
-     */
-    function COBAIN_CUTI_DEMO(event) {
-        event.preventDefault(); 
+   <script>
+        // [DEMO HAPUS] Simpan data sisa cuti di Local Storage untuk simulasi
+        const SISA_CUTI_MAX = 12; 
+        let sisaCuti = parseInt(localStorage.getItem('SISA_CUTI_TAHUNAN')) || 11; // [DEMO HAPUS]
         
-        const form = event.target;
-        const tglMulai = new Date(form.tgl_mulai.value);
-        const tglSelesai = new Date(form.tgl_selesai.value);
-        const jenisCuti = form.jenis_cuti.value;
-        const alasanCuti = form.alasan.value;
-        const messageElement = document.getElementById('cutiMessage');
+        // [DEMO HAPUS] Data Profil Pengguna (MOCK untuk diambil NAMA dan ID)
+        const USER_PROFILE = {
+            name: "Mozaaa Loki", 
+            id: 1001 // ID Petugas yang mengajukan
+        };
 
-        // Reset pesan
-        messageElement.classList.add('hidden');
-        messageElement.classList.remove('text-green-500', 'text-red-500');
-
-        if (tglMulai > tglSelesai) {
-            messageElement.textContent = "Gagal: Tanggal mulai harus sebelum atau sama dengan tanggal selesai.";
-            messageElement.classList.add('text-red-500');
-            messageElement.classList.remove('hidden');
-            return;
+        // [DEMO HAPUS] Mengupdate tampilan sisa cuti dan Local Storage
+        function updateCutiDisplay() {
+            document.getElementById('sisaCutiDisplay').textContent = sisaCuti;
+            localStorage.setItem('SISA_CUTI_TAHUNAN', sisaCuti); // [DEMO HAPUS]
         }
 
-        let totalHariCuti = 0;
-        let isSuccess = false;
-
-        // Logika Cuti Tahunan
-        if (jenisCuti === 'Tahunan') {
-            totalHariCuti = getWorkDays(tglMulai, tglSelesai);
-
-            if (totalHariCuti <= 0) {
-                 messageElement.textContent = "Gagal: Pilih rentang tanggal yang valid (minimal 1 hari kerja).";
-                 messageElement.classList.add('text-red-500');
-                 messageElement.classList.remove('hidden');
-                 return;
+        // Fungsi bantu untuk menghitung hari kerja (dipertahankan)
+        function getWorkDays(start, end) {
+            let count = 0;
+            const curDate = new Date(start);
+            while (curDate <= end) {
+                const day = curDate.getDay();
+                if (day !== 0 && day !== 6) { 
+                    count++;
+                }
+                curDate.setDate(curDate.getDate() + 1);
             }
+            return count;
+        }
+
+        /* ========================================================= */
+        /* === MOCK DATABASE (LOCAL STORAGE) - AKAN DIGANTI BACKEND === */
+        /* ========================================================= */
+        
+        // [DEMO HAPUS] Mengambil riwayat cuti dari Local Storage
+        function getRiwayatCuti() {
+            const riwayatJson = localStorage.getItem('RIWAYAT_CUTI_MOCK');
+            return riwayatJson ? JSON.parse(riwayatJson) : []; // [DEMO HAPUS]
+        }
+
+        // [DEMO HAPUS] Menyimpan riwayat cuti ke Local Storage
+        function saveRiwayatCuti(riwayat) {
+            localStorage.setItem('RIWAYAT_CUTI_MOCK', JSON.stringify(riwayat)); // [DEMO HAPUS]
+        }
+
+        /**
+         * COBAIN CUTI DEMO
+         */
+        function COBAIN_CUTI_DEMO(event) {
+            event.preventDefault(); 
             
-            // [DEMO HAPUS] Cek sisa cuti dari variabel Local Storage
-            if (totalHariCuti > sisaCuti) {
-                messageElement.textContent = `Gagal: Sisa cuti Anda (${sisaCuti} hari) tidak cukup untuk pengajuan ${totalHariCuti} hari.`; // [DEMO HAPUS]
-                messageElement.classList.add('text-red-500');
+            const form = event.target;
+            const tglMulai = new Date(form.tgl_mulai.value);
+            const tglSelesai = new Date(form.tgl_selesai.value);
+            const jenisCuti = form.jenis_cuti.value;
+            const alasanCuti = form.alasan.value;
+            const messageElement = document.getElementById('cutiMessage');
+
+            // ... (Logika validasi & isSuccess) ...
+            let isSuccess = true;
+            let totalHariCuti = 0;
+            
+            if (jenisCuti === 'Tahunan') {
+                totalHariCuti = getWorkDays(tglMulai, tglSelesai);
+                // ... (Logic cek kuota tetap sama) ...
+                if (totalHariCuti <= sisaCuti && totalHariCuti > 0) {
+                    sisaCuti -= totalHariCuti;
+                    updateCutiDisplay();
+                    isSuccess = true;
+                } else if (totalHariCuti > sisaCuti) {
+                    isSuccess = false;
+                    messageElement.textContent = `Gagal: Sisa cuti Anda (${sisaCuti} hari) tidak cukup untuk pengajuan ${totalHariCuti} hari.`; 
+                } else {
+                    isSuccess = false;
+                    messageElement.textContent = "Gagal: Pilih rentang tanggal yang valid.";
+                }
             } else {
-                // Logika SUKSES
-                sisaCuti -= totalHariCuti; // [DEMO HAPUS] Potong sisa cuti
-                updateCutiDisplay();        // [DEMO HAPUS] Update tampilan & Local Storage
                 isSuccess = true;
-                messageElement.textContent = `SUCCESS: Cuti Tahunan ${totalHariCuti} hari berhasil diajukan! Sisa cuti Anda kini ${sisaCuti} hari.`; // [DEMO HAPUS]
             }
-        } else {
-            // Cuti Sakit/Melahirkan
-            isSuccess = true;
-            messageElement.textContent = `SUCCESS: Pengajuan Cuti ${jenisCuti} berhasil diajukan dan akan diproses!`;
+
+            if (isSuccess) {
+                // =======================================================
+                // KUNCI PERBAIKAN: Menyimpan ID dan Nama User
+                // =======================================================
+                
+                const riwayatLama = getRiwayatCuti(); // [DEMO HAPUS]
+                
+                const dateFormatter = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+
+                // Mencari ID unik terbaru untuk entri baru
+                const maxId = riwayatLama.length > 0 ? Math.max(...riwayatLama.map(item => item.id)) : 0;
+                
+                const newEntry = {
+                    id: maxId + 1, // FIX: ID unik
+                    nama: USER_PROFILE.name, // FIX: Nama Petugas
+                    tglMulai: dateFormatter.format(tglMulai).replace(/\./g, ''), // FIX: Tanggal Mulai
+                    tglSelesai: dateFormatter.format(tglSelesai).replace(/\./g, ''), // FIX: Tanggal Selesai
+                    jenisCuti: jenisCuti,
+                    status: "Menunggu",
+                    alasan: alasanCuti,
+                    lamaCuti: totalHariCuti > 0 ? totalHariCuti + ' Hari Kerja' : 'N/A', // Data Lama Cuti
+                    tanggal: dateFormatter.format(tglMulai).replace(/\./g, '') // FIX: Tambahkan TANGGAL (sama dengan tglMulai untuk kolom tabel)
+                };
+
+                riwayatLama.unshift(newEntry); 
+                saveRiwayatCuti(riwayatLama); 
+                
+                // ... (Logika pesan sukses & reset form) ...
+                
+                messageElement.classList.add('text-green-500');
+                messageElement.textContent = `SUCCESS: Pengajuan Cuti berhasil diajukan!`;
+                form.reset();
+            } else {
+                messageElement.classList.add('text-red-500');
+            }
+            
+            messageElement.classList.remove('hidden');
         }
 
-        if (isSuccess) {
-            // =======================================================
-            // BAGIAN INI HARUS DIGANTI DENGAN FETCH/AJAX POST KE BACKEND
-            // =======================================================
-            
-            const riwayatLama = getRiwayatCuti(); // [DEMO HAPUS]
-            
-            const dateFormatter = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-            const dayFormatter = new Intl.DateTimeFormat('id-ID', { weekday: 'long' });
-
-            const newEntry = {
-                tglMulai: dateFormatter.format(tglMulai).replace(/\./g, ''),
-                hari: dayFormatter.format(tglMulai), 
-                jenisCuti: jenisCuti,
-                status: "Menunggu", // Status default dari backend
-                alasan: alasanCuti
-            };
-
-            riwayatLama.unshift(newEntry); // [DEMO HAPUS]
-            saveRiwayatCuti(riwayatLama);  // [DEMO HAPUS] Simpan ke Local Storage
-            
-            // =======================================================
-            
-            messageElement.classList.add('text-green-500');
-            form.reset();
-        } else {
-            messageElement.classList.add('text-red-500');
-        }
-        
-        messageElement.classList.remove('hidden');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        updateCutiDisplay(); // [DEMO HAPUS] Muat sisa cuti saat halaman dibuka
-    });
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCutiDisplay(); // [DEMO HAPUS] Muat sisa cuti saat halaman dibuka
+        });
     </script>
 </body>
 </html>

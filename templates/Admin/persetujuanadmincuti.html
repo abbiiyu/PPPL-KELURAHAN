@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proses Persetujuan Cuti - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya Kustom Umum (Konsisten dengan Dashboard) */
+        body {
+            background-color: #f7f9fb;
+        }
+        .header-bg {
+            background-color: #3b4257;
+            color: white;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Custom colors matching the design */
+        .color-blue { background-color: #4c8cd6; } 
+        .color-green { background-color: #49c57d; } 
+        .color-purple { background-color: #9c5aa8; }
+        .progress-bar-red { height: 4px; background-color: #ef4444; }
+        
+        /* Gaya untuk Tabel */
+        .riwayat-table th, .riwayat-table td {
+            padding: 0.75rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #f0f2f7;
+            font-size: 0.875rem; /* text-sm */
+        }
+        .riwayat-table th {
+            background-color: #f7f9fb;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        /* Gaya untuk Kotak Peringatan */
+        .warning-box {
+            background-color: #fff3cd; /* Kuning sangat muda */
+            color: #856404; /* Teks coklat tua */
+            border: 1px solid #ffeeba;
+            padding: 1rem;
+            margin-bottom: 1.5rem; /* Jarak dari tabel */
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        /* Style status */
+        .status-menunggu { color: #f59e0b; font-weight: 600; } /* amber-500 */
+        .status-disetujui { color: #10b981; font-weight: 600; } /* green-500 */
+        .status-ditolak { color: #ef4444; font-weight: 600; }   /* red-500 */
+    </style>
+</head>
+<body class="min-h-screen flex flex-col"> 
+    
+    <header class="header-bg p-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <img src="../../logokelurahan.png" alt="Logo Kelurahan" class="w-8 h-8 mr-3 rounded-full object-cover">
+            <h1 class="text-xl font-semibold">Kelurahan Lenteng Agung</h1>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+            <span class="text-sm font-semibold p-1">Admin</span>
+            
+            <a href="loginadmin.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded" role="button">Keluar</a>
+        </div>
+    </header>
+
+    <main class="p-4 pt-6 flex-grow">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
+            <div class="color-blue card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">TOTAL PETUGAS</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">43</span>
+                    <i class="fas fa-users text-3xl opacity-50"></i>
+                </div>
+            </div>
+            <div class="color-green card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">KEHADIRAN HARI INI</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold">37</span>
+                    <i class="fas fa-times-circle text-3xl opacity-50"></i>
+                </div>
+                <div class="h-1 bg-white bg-opacity-30 rounded mt-3">
+                    <div class="progress-bar-red rounded" style="width: 86%;"></div>
+                </div>
+            </div>
+            <div class="color-purple card-shadow p-5 rounded-lg text-white w-full h-36 flex flex-col justify-between">
+                <p class="text-xs font-semibold opacity-80">CUTI MENUNGGU PERSETUJUAN</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-4xl font-bold" id="cutiMenungguCount">10</span>
+                    <i class="fas fa-times-circle text-3xl opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 uppercase">PROSES PERSETUJUAN CUTI</h1>
+        
+        <div class="flex mb-4 space-x-3">
+            <input 
+                type="search" 
+                id="search-input"
+                placeholder="Cari (Nama, Tanggal, Jenis Cuti...)"
+                class="flex-grow p-2 border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+            />
+            <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                Filter
+            </button>
+        </div>
+
+        <div class="warning-box">
+            <i class="fas fa-exclamation-triangle mr-3  text-yellow-800"></i>
+            Perhatian : Otoritas persetujuan cuti hanya ada pada akun lurah.
+        </div>
+
+
+        <div class="bg-white card-shadow p-4 rounded-lg overflow-x-auto">
+            <table class="w-full riwayat-table border-collapse">
+                <thead>
+                    <tr>
+                        <th class="w-1/12">NO</th>
+                        <th class="w-2/12">NAMA</th>
+                        <th class="w-2/12">TANGGAL</th>
+                        <th class="w-2/12">JENIS CUTI</th>
+                        <th class="w-2/12">STATUS</th>
+                        </tr>
+                </thead>
+                <tbody id="persetujuanCutiBody">
+                    </tbody>
+            </table>
+            
+            <div class="flex justify-end mt-4">
+                <button onclick="exportCutiToCSV('data_cuti_menunggu.csv')" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                    Export ke Excel
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="header-bg mt-8 p-4">
+        <h2 class="text-lg font-semibold mb-4">Kantor Kelurahan Lenteng Agung</h2>
+        <div class="space-y-3 text-sm text-gray-300">
+            <p class="flex items-center">
+                <i class="fas fa-map-marker-alt w-4 mr-3 text-gray-400"></i> JL. Lenteng Agung Raya No. 123
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-phone w-4 mr-3 text-gray-400"></i> (021) 1234-5678
+            </p>
+            <p class="flex items-center">
+                <i class="fas fa-envelope w-4 mr-3 text-gray-400"></i> info@lentengagung.go.id
+            </p>
+        </div>
+        
+        <h2 class="text-lg font-semibold mb-3 mt-6">Jam Operasional</h2>
+        <div class="space-y-1 text-sm text-gray-300">
+            <p>Senin - Jumat: <span class="font-semibold">08:00 - 17:00</span></p>
+            <p>Sabtu: <span class="font-semibold">08:00 - 12:00</span></p>
+            <p>Minggu: <span class="font-semibold">Tutup</span></p>
+        </div>
+        
+        <div class="border-t-2 border-gray-600 my-6 w-full"></div> 
+
+        <p class="text-center text-xs text-gray-400 w-full"> 
+            © 2024 HRIS Lenteng Agung Village Office. Powered by<br>
+            <span class="font-semibold">APTIKOM.</span>
+        </p>
+    </footer>
+
+    <script>
+        /* ========================================================= */
+        /* ===== LOGIKA DATA & LOCAL STORAGE (MOCK DATABASE) ================ */
+        /* ========================================================= */
+
+        // Data Mock awal (Struktur LENGKAP untuk Fallback)
+        const INITIAL_CUTI_DATA = [
+            // Struktur lengkap diperlukan untuk konsistensi data
+            { id: 1, nama: "Mozaaa", tanggal: "17 Okt 2025", jenisCuti: "Sakit", status: "Menunggu", alasan: "Sakit parah", tglSelesai: "18 Okt 2025", lamaCuti: "2 Hari Kerja" },
+            { id: 2, nama: "Jeje", tanggal: "12 Okt 2025", jenisCuti: "Cuti Penting", status: "Menunggu", alasan: "Acara keluarga", tglSelesai: "15 Okt 2025", lamaCuti: "4 Hari Kerja" },
+            { id: 3, nama: "Dodi", tanggal: "01 Okt 2025", jenisCuti: "Cuti Besar", status: "Menunggu", alasan: "Pulang kampung", tglSelesai: "05 Okt 2025", lamaCuti: "3 Hari Kerja" },
+            { id: 4, nama: "Yanto", tanggal: "28 Nov 2025", jenisCuti: "Sakit", status: "Menunggu", alasan: "Sakit ringan", tglSelesai: "29 Nov 2025", lamaCuti: "2 Hari Kerja" },
+            { id: 5, nama: "Azhar", tanggal: "21 Okt 2025", jenisCuti: "Cuti Penting", status: "Menunggu", alasan: "Keperluan mendesak", tglSelesai: "21 Okt 2025", lamaCuti: "1 Hari Kerja" },
+            { id: 6, nama: "Bobi", tanggal: "26 Okt 2025", jenisCuti: "Cuti Penting", status: "Menunggu", alasan: "Perbaikan rumah", tglSelesai: "26 Okt 2025", lamaCuti: "1 Hari Kerja" },
+            { id: 7, nama: "Krisna", tanggal: "04 Nov 2025", jenisCuti: "Cuti Penting", status: "Menunggu", alasan: "Urusan bank", tglSelesai: "04 Nov 2025", lamaCuti: "1 Hari Kerja" },
+            { id: 8, nama: "Yamal", tanggal: "09 Nov 2025", jenisCuti: "Cuti Besar", status: "Menunggu", alasan: "Pernikahan", tglSelesai: "12 Nov 2025", lamaCuti: "4 Hari Kerja" },
+            { id: 9, nama: "Kuncup", tanggal: "30 Okt 2025", jenisCuti: "Sakit", status: "Menunggu", alasan: "Sakit gigi", tglSelesai: "30 Okt 2025", lamaCuti: "1 Hari Kerja" },
+            { id: 10, nama: "Ajis", tanggal: "11 Nov 2025", jenisCuti: "Cuti Penting", status: "Menunggu", alasan: "Mengantar ibu", tglSelesai: "11 Nov 2025", lamaCuti: "1 Hari Kerja" },
+        ];
+        let cutiData = []; 
+
+        /**
+         * Mengambil data cuti dari Local Storage.
+         */
+        function getRiwayatCuti() {
+            const riwayatJson = localStorage.getItem('RIWAYAT_CUTI_MOCK');
+            try {
+                // Jika Local Storage kosong, kembalikan data mock awal.
+                return riwayatJson ? JSON.parse(riwayatJson) : INITIAL_CUTI_DATA;
+            } catch (e) {
+                console.error("Error parsing cuti data from localStorage. Using initial mock data.", e);
+                return INITIAL_CUTI_DATA;
+            }
+        }
+
+        /**
+         * Menyimpan data cuti ke Local Storage.
+         */
+        function saveRiwayatCuti(riwayat) {
+            localStorage.setItem('RIWAYAT_CUTI_MOCK', JSON.stringify(riwayat));
+        }
+
+        // Pastikan data awal ada di Local Storage saat pertama kali diakses
+        if (!localStorage.getItem('RIWAYAT_CUTI_MOCK')) {
+            saveRiwayatCuti(INITIAL_CUTI_DATA);
+        }
+        
+        /**
+         * Mengisi tabel dengan data cuti yang diambil dari Local Storage.
+         */
+        function renderTable() {
+            const tbody = document.getElementById('persetujuanCutiBody');
+            tbody.innerHTML = '';
+            
+            // Ambil data terbaru dari Local Storage
+            cutiData = getRiwayatCuti(); 
+            
+            cutiData.forEach((item) => {
+                const currentStatus = item.status || 'Menunggu';
+                const statusColor = currentStatus === 'Menunggu' ? 'status-menunggu' : 
+                                    currentStatus === 'Disetujui' ? 'status-disetujui' : 'status-ditolak';
+
+                // Tidak ada kolom AKSI karena ini adalah halaman Admin (view only)
+                const row = `
+                    <tr class="hover:bg-gray-50">
+                        <td class="w-1/12">${item.id || '—'}</td> 
+                        <td class="w-2/12 font-semibold">${item.nama || '—'}</td> 
+                        <td class="w-2/12">${item.tanggal || '—'}</td> 
+                        <td class="w-2/12">${item.jenisCuti || '—'}</td>
+                        <td class="w-2/12"><span class="${statusColor}">${currentStatus}</span></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+
+            // Update counter cuti menunggu
+            try {
+                const menungguCount = cutiData.filter(c => c.status === 'Menunggu').length;
+                document.getElementById('cutiMenungguCount').textContent = menungguCount;
+            } catch (e) { /* Cuti counter element not found */ }
+        }
+
+        // [DEMO HAPUS] Fungsi Ekspor CSV (Dipertahankan)
+        function exportCutiToCSV(filename) {
+            let csv = [];
+            // Menggunakan header lengkap untuk ekspor, termasuk data yang disimpan Lurah/User
+            const header = ["NO", "NAMA", "TANGGAL MULAI", "TANGGAL SELESAI", "JENIS CUTI", "STATUS", "ALASAN"]; 
+            csv.push(header.join(';')); 
+
+            cutiData.forEach((item) => { 
+                let row = [];
+                row.push(item.id || '');
+                row.push('"' + (item.nama || '').replace(/"/g, '""') + '"'); 
+                row.push(item.tanggal || '');
+                row.push(item.tglSelesai || ''); 
+                row.push(item.jenisCuti || '');
+                row.push(item.status || '');
+                row.push('"' + (item.alasan || '').replace(/"/g, '""') + '"');
+                csv.push(row.join(';'));
+            });
+            
+            const csvContent = "\ufeff" + csv.join('\n'); 
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            
+            if (navigator.msSaveBlob) { 
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+            console.log(`Export ${cutiData.length} baris cuti ke ${filename} berhasil dipicu.`);
+        }
+
+        document.addEventListener('DOMContentLoaded', renderTable);
+    </script>
+</body>
+</html>
