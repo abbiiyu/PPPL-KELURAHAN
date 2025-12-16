@@ -93,60 +93,29 @@
                 
                 <div class="report-card">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-bold text-gray-800">Grafik Trend Kehadiran Bulanan</h2>
+                        <h2 class="text-lg font-bold text-gray-800">Top 5 Petugas Terbaik</h2>
                         <button class="bg-gray-200 text-gray-700 text-xs py-1 px-3 rounded-md hover:bg-gray-300">Pilih Bulan</button>
                     </div>
-                    <div class="chart-area" style="position: relative;">
-                        <div class="y-axis-label">
-                            <span>100%</span> <span>75%</span> <span>50%</span> <span>25%</span> <span>0%</span>
-                        </div>
-                        
-                        <div class="line-chart-area">
-                            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;">
-                                <defs>
-                                    <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#9068B9; stop-opacity:0.6" />
-                                        <stop offset="100%" style="stop-color:#9068B9; stop-opacity:0.1" />
-                                    </linearGradient>
-                                </defs>
-                                
-                                <polygon fill="url(#areaGradient)" 
-                                         points="15,40 35,60 55,30 75,50 95,20 95,100 15,100" /> 
-                                
-                                <polyline fill="none" stroke="#7958b3" stroke-width="2" 
-                                          points="15,40 35,60 55,30 75,50 95,20" />
-                                          
-                                <circle cx="15" cy="40" r="1.5" fill="#7958b3" stroke="white" stroke-width="0.5" />
-                                <circle cx="35" cy="60" r="1.5" fill="#7958b3" stroke="white" stroke-width="0.5" />
-                                <circle cx="55" cy="30" r="1.5" fill="#7958b3" stroke="white" stroke-width="0.5" />
-                                <circle cx="75" cy="50" r="1.5" fill="#7958b3" stroke="white" stroke-width="0.5" />
-                                <circle cx="95" cy="20" r="1.5" fill="#7958b3" stroke="white" stroke-width="0.5" />
-                            </svg>
-                        </div>
-                        
-                        <div class="absolute bottom-0 left-0 right-0 flex justify-around text-xs text-gray-700 pt-2" style="margin-left: 3rem;">
-                            <span>Senin</span> <span>Selasa</span> <span>Rabu</span> <span>Kamis</span> <span>Jumat</span> <span>Sabtu</span>
-                        </div>
+                    <div class="flex-grow top-petugas-list overflow-y-auto">
+                        <div><img src="https://i.pravatar.cc/150?img=1" alt="Mozaaa Loki"><span class="flex-grow">Mozaaa Loki</span><span class="font-semibold">97 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=2" alt="Ahmad Taruna"><span class="flex-grow">Ahmad Taruna</span><span class="font-semibold">90 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=3" alt="Budi Nan Jaya"><span class="flex-grow">Budi Nan Jaya</span><span class="font-semibold">88 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=4" alt="Muhammad Kasim"><span class="flex-grow">Muhammad Kasim</span><span class="font-semibold">85 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=5" alt="Bagas Sentosa"><span class="flex-grow">Bagas Sentosa</span><span class="font-semibold">84 %</span></div>
                     </div>
                 </div>
 
                 <div class="report-card">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-bold text-gray-800">Ringkasan Kehadiran</h2>
+                        <h2 class="text-lg font-bold text-gray-800">Top 5 Petugas Terburuk</h2>
                         <button class="bg-gray-200 text-gray-700 text-xs py-1 px-3 rounded-md hover:bg-gray-300">Pilih Bulan</button>
                     </div>
-                    <div class="flex-grow flex items-center justify-center space-x-6">
-                        <div class="donut-chart-container">
-                            <div class="donut-chart-center"> 85% </div>
-                        </div>
-                        <div class="flex flex-col space-y-2 text-sm">
-                            <div class="flex items-center">
-                                <span class="w-3 h-3 rounded-full bg-[#49c57d] mr-2"></span> Hadir Tepat Waktu: <span class="font-bold ml-1">35</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="w-3 h-3 rounded-full bg-[#ef4444] mr-2"></span> Jumlah Keterlambatan: <span class="font-bold ml-1">4</span>
-                            </div>
-                        </div>
+                    <div class="flex-grow top-petugas-list overflow-y-auto">
+                        <div><img src="https://i.pravatar.cc/150?img=1" alt="Mozaaa Loki"><span class="flex-grow">Mozaaa Loki</span><span class="font-semibold">97 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=2" alt="Ahmad Taruna"><span class="flex-grow">Ahmad Taruna</span><span class="font-semibold">90 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=3" alt="Budi Nan Jaya"><span class="flex-grow">Budi Nan Jaya</span><span class="font-semibold">88 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=4" alt="Muhammad Kasim"><span class="flex-grow">Muhammad Kasim</span><span class="font-semibold">85 %</span></div>
+                        <div><img src="https://i.pravatar.cc/150?img=5" alt="Bagas Sentosa"><span class="flex-grow">Bagas Sentosa</span><span class="font-semibold">84 %</span></div>
                     </div>
                 </div>
 
@@ -173,15 +142,21 @@
 
                 <div class="report-card">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-bold text-gray-800">Top 5 Petugas Terbaik</h2>
+                        <h2 class="text-lg font-bold text-gray-800">Ringkasan Kehadiran</h2>
                         <button class="bg-gray-200 text-gray-700 text-xs py-1 px-3 rounded-md hover:bg-gray-300">Pilih Bulan</button>
                     </div>
-                    <div class="flex-grow top-petugas-list overflow-y-auto">
-                        <div><img src="https://i.pravatar.cc/150?img=1" alt="Mozaaa Loki"><span class="flex-grow">Mozaaa Loki</span><span class="font-semibold">97 %</span></div>
-                        <div><img src="https://i.pravatar.cc/150?img=2" alt="Ahmad Taruna"><span class="flex-grow">Ahmad Taruna</span><span class="font-semibold">90 %</span></div>
-                        <div><img src="https://i.pravatar.cc/150?img=3" alt="Budi Nan Jaya"><span class="flex-grow">Budi Nan Jaya</span><span class="font-semibold">88 %</span></div>
-                        <div><img src="https://i.pravatar.cc/150?img=4" alt="Muhammad Kasim"><span class="flex-grow">Muhammad Kasim</span><span class="font-semibold">85 %</span></div>
-                        <div><img src="https://i.pravatar.cc/150?img=5" alt="Bagas Sentosa"><span class="flex-grow">Bagas Sentosa</span><span class="font-semibold">84 %</span></div>
+                    <div class="flex-grow flex items-center justify-center space-x-6">
+                        <div class="donut-chart-container">
+                            <div class="donut-chart-center"> 85% </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 text-sm">
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 rounded-full bg-[#49c57d] mr-2"></span> Hadir Tepat Waktu: <span class="font-bold ml-1">35</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 rounded-full bg-[#ef4444] mr-2"></span> Jumlah Keterlambatan: <span class="font-bold ml-1">4</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
